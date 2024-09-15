@@ -2,3 +2,7 @@ docker-compose up -d
 #get login passward
 docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
+docker pull jenkins/jenkins:lts
+docker volume create jenkins_data
+docker run -d --name jenkins -p 8080:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:lts
+docker logs jenkins

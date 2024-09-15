@@ -69,7 +69,7 @@ pipeline {
 
     post {
         always {
-            
+            sh 'docker logout'
             sh 'go clean'
         }
         success {
