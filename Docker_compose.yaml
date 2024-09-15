@@ -2,23 +2,22 @@ version: '3'
 
 services:
   jenkins:
-    image: jenkins/jenkins:lts  # Use Jenkins Long-Term Support (LTS) version
+    image: jenkins/jenkins:lts  
     container_name: jenkins
     ports:
-      - "8080:8080"  # Expose Jenkins UI
-      - "50000:50000"  # Port for Jenkins agents (for distributed builds)
+      - "8080:8080"  
+      - "50000:50000"  
     volumes:
-      - jenkins_home:/var/jenkins_home  # Persistent volume to store Jenkins data
-      - /var/run/docker.sock:/var/run/docker.sock  # Allow Jenkins to run Docker commands
-    environment:
-      - JENKINS_OPTS=--prefix=/jenkins  # Optional, set URL prefix for Jenkins (if needed)
+      - jenkins_home:/var/jenkins_home  
+      - /var/run/docker.sock:/var/run/docker.sock  
+      
     networks:
-      - jenkins_network  # Custom network
+      - jenkins_network  
 
 volumes:
-  jenkins_home:  # Define a persistent volume to store Jenkins data
+  jenkins_home: 
 
 networks:
-  jenkins_network:  # Define a custom network for Jenkins
+  jenkins_network:  
     driver: bridge
 
