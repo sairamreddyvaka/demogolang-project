@@ -7,6 +7,7 @@ pipeline {
     }
     environment {
         GO_PROJECT = "https://github.com/sairamreddyvaka/demogolang-project.git" 
+        DOCKERHUB_CREDENTIALS = credentials('sairam-dockerhub')
     }
     stages {
         stage('Checkout') {
@@ -35,9 +36,37 @@ pipeline {
                 echo "Test stage running"
             }
         }
+       
         
-        
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    
+                    def imageName = 'srrvaka/golang_application'
+                    def tag = 'BUILD_NUMBER' 
+                    
+                    
+                    sh "docker build -t ${imageName}:${tag} ."
+                }
+            }
+        }
+        stage('login to dockerhub') {
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('Push Docker Image to Registry') {
+            steps {
+                script { 
+                    def imageName = 'srrvaka/golang_application'
+                    def tag = 'BUILD_NUMBER'
+                    sh "docker push ${imageName}:${tag}"
+                }
+            }
+        }
     }
+
+
     post {
         always {
             
