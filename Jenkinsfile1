@@ -1,11 +1,12 @@
 pipeline {
     agent any
-
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('sairam-dockerhub')
-        GOPATH = "${WORKSPACE}"
+    tools {
+        go 'go-1.20'
     }
-
+    environment {
+        GO_PROJECT = "https://github.com/sairamreddyvaka/demogolang-project.git" 
+        DOCKERHUB_CREDENTIALS = credentials('sairam-dockerhub')
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -13,19 +14,28 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/sairamreddyvaka/demogolang-project.git'
             }
         }
-        
-        stage('Test') {
+        stage('Set up Go Environment') {
             steps {
-                 echo 'Run your test scripts'
+               
+                sh 'go mod tidy'
                 
+                sh 'go mod download'
             }
         }
         stage('Build') {
             steps {
                 
-                sh 'cd ./go_app && go build -o myapp'
+                sh 'go build -o myapp .'
             }
         }
+        stage('Test') {
+            steps {
+                
+                echo "Test stage running"
+            }
+        }
+       
+        
         stage('Build Docker Image') {
             steps {
                 script {
@@ -51,18 +61,20 @@ pipeline {
                     sh "docker push ${imageName}:${tag}"
                 }
             }
+        }
     }
+
 
     post {
         always {
-            
-            cleanWs()
+            sh 'docker logout'
+            sh 'go clean'
         }
         success {
-            echo 'Build and Test Stages Successful!'
+            echo 'Build succeeded!'
         }
         failure {
-            echo 'Build or Test Failed!'
+            echo 'Build failed!'
         }
     }
 }
