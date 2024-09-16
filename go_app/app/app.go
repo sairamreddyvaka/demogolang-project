@@ -12,6 +12,6 @@ func Start() {
 	mux := mux.NewRouter()
 	mux.HandleFunc("/customer", getAllcustomer)
 	mux.HandleFunc("/greet", Hello)
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	log.Fatal(http.ListenAndServe(":8081", mux))
 
 }
