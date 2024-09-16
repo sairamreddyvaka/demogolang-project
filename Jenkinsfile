@@ -52,7 +52,7 @@ pipeline {
                 }
             }
         }
-
+    }
         post {
             always {
                 
@@ -65,6 +65,6 @@ pipeline {
                 echo 'Build or Test Failed!'
             }
         }
-    }
+    
 
 }
