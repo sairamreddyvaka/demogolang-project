@@ -56,7 +56,7 @@ pipeline {
         post {
             always {
                 
-                cleanWs()
+                echo 'post acction sucessfull'
             }
             success {
                 echo 'Build and Test Stages Successful!'
