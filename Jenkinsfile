@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                
+                echo 'checoutstage'
                 git branch: 'main', url: 'https://github.com/sairamreddyvaka/demogolang-project.git'
             }
         }
