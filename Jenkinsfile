@@ -65,4 +65,6 @@ pipeline {
             echo 'Build or Test Failed!'
         }
     }
+    }
+
 }
