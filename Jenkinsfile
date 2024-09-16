@@ -53,18 +53,18 @@ pipeline {
             }
     }
 
-    post {
-        always {
-            
-            cleanWs()
+        post {
+            always {
+                
+                cleanWs()
+            }
+            success {
+                echo 'Build and Test Stages Successful!'
+            }
+            failure {
+                echo 'Build or Test Failed!'
+            }
         }
-        success {
-            echo 'Build and Test Stages Successful!'
-        }
-        failure {
-            echo 'Build or Test Failed!'
-        }
-    }
     }
 
 }
