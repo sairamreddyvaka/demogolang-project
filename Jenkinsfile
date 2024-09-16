@@ -51,7 +51,7 @@ pipeline {
                     sh "docker push ${imageName}:${tag}"
                 }
             }
-    }
+        }
 
         post {
             always {
