@@ -23,35 +23,10 @@ pipeline {
         stage('Build') {
             steps {
                 
-                sh 'cd ./go_app && go build -o myapp'
+                sh 'cd ./go_app && go build main.go'
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    
-                    def imageName = 'srrvaka/golang_application'
-                    def tag = 'BUILD_NUMBER' 
-                    
-                    
-                    sh "docker build -t ${imageName}:${tag} ."
-                }
-            }
-        }
-        stage('login to dockerhub') {
-            steps{
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
-        }
-        stage('Push Docker Image to Registry') {
-            steps {
-                script { 
-                    def imageName = 'srrvaka/golang_application'
-                    def tag = 'BUILD_NUMBER'
-                    sh "docker push ${imageName}:${tag}"
-                }
-            }
-        }
+        
     }
         post {
             always {
