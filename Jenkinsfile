@@ -1,9 +1,7 @@
 pipeline {
-    agent {
-        docker {
-            
-            image 'golang:1.20'  
-        }
+    agent any
+    tools {
+        go 'go-1.20'
     }
     environment {
         GO_PROJECT = "https://github.com/sairamreddyvaka/demogolang-project.git" 
